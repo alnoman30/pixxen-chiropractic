@@ -1756,3 +1756,115 @@ document.querySelectorAll(".chiropractic-magnet-item").forEach((item) => {
 
 
 // 
+// Chiropractic project showcase animation cursor follow
+document.addEventListener("DOMContentLoaded", () => {
+
+    if (!window.gsap) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const grid = document.getElementById("chiropractic-works-grid");
+    if (!grid) return;
+
+
+    // Cards Reveal
+    gsap.from(grid.querySelectorAll(".chiropractic-work-card"), {
+        y: 60,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: grid,
+            start: "top 85%",
+        },
+    });
+
+
+    // View Work Cursor Animation
+    const medias = [...grid.querySelectorAll(".chiropractic-work-media")];
+
+
+    medias.forEach((media) => {
+
+        const btn = media.querySelector(".chiropractic-view-work");
+        if (!btn) return;
+
+
+        // Initial state
+        gsap.set(btn, {
+            xPercent: -50,
+            yPercent: -50,
+            scale: 0,
+            opacity: 0,
+        });
+
+
+        // Smooth cursor movement
+        const xTo = gsap.quickTo(btn, "x", {
+            duration: 0.8,
+            ease: "power2.out",
+        });
+
+        const yTo = gsap.quickTo(btn, "y", {
+            duration: 0.8,
+            ease: "power2.out",
+        });
+
+
+        const getPosition = (e) => {
+
+            const rect = media.getBoundingClientRect();
+
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top,
+            };
+
+        };
+
+
+        media.addEventListener("mouseenter", (e) => {
+
+            const pos = getPosition(e);
+
+            gsap.set(btn, {
+                x: pos.x,
+                y: pos.y,
+            });
+
+
+            gsap.to(btn, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.55,
+                ease: "back.out(1.6)",
+            });
+
+        });
+
+
+        media.addEventListener("mousemove", (e) => {
+
+            const pos = getPosition(e);
+
+            xTo(pos.x);
+            yTo(pos.y);
+
+        });
+
+
+        media.addEventListener("mouseleave", () => {
+
+            gsap.to(btn, {
+                scale: 0,
+                opacity: 0,
+                duration: 0.35,
+                ease: "power2.inOut",
+            });
+
+        });
+
+    });
+
+});
