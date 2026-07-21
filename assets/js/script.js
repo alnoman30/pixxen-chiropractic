@@ -1720,6 +1720,8 @@ document.querySelectorAll('.saloneandspas-spacification').forEach(row => {
 
 
 // Pet grooming page js start
+
+// magnet svg animation chiropractic
 document.querySelectorAll(".chiropractic-magnet-item").forEach((item) => {
   const icon = item.querySelector(".chiropractic-magnet-item-svg");
   let bounds;
@@ -1867,4 +1869,177 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
+});
+
+
+// 
+document.addEventListener('DOMContentLoaded', function () {
+  if (document.querySelector('#chiropractic-testimonial-slider')) {
+
+    new Splide('#chiropractic-testimonial-slider', {
+      type: 'loop',
+
+      // Desktop
+      perPage: 3,
+      perMove: 1,
+      gap: '8px',
+
+      arrows: false, // Hide arrows on desktop
+      pagination: false,
+
+      autoScroll: {
+        speed: 1.2,
+        pauseOnHover: true,
+        pauseOnFocus: false,
+      },
+
+      classes: {
+        arrows: 'splide__arrows chiropractic-arrows',
+        arrow: 'splide__arrow chiropractic-arrow',
+        prev: 'splide__arrow--prev chiropractic-arrow-prev',
+        next: 'splide__arrow--next chiropractic-arrow-next',
+      },
+
+      breakpoints: {
+        1024: {
+          perPage: 2,
+          gap: '8px',
+          arrows: true, // Show arrows on tablet
+        },
+
+        768: {
+          perPage: 1,
+          gap: '6px',
+          arrows: true, // Show arrows on mobile
+          autoScroll: false,
+        },
+      },
+
+    }).mount(window.splide.Extensions);
+  }
+});
+
+// chiropractic FAQ JS
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const faqItems = document.querySelectorAll(".chiropractic-faq-item");
+
+  faqItems.forEach((item) => {
+
+    const trigger = item;
+    const wrapper = item.querySelector(".chiropractic-faq-answer-wrapper");
+    const icon = item.querySelector(".chiropractic-faq-icon");
+
+
+    gsap.set(wrapper, {
+      height: 0
+    });
+
+
+    trigger.addEventListener("click", () => {
+
+      const isOpen = item.classList.contains("active");
+
+
+      // Close all other FAQs
+      faqItems.forEach((other) => {
+
+        if (other !== item) {
+
+          const otherWrapper = other.querySelector(".chiropractic-faq-answer-wrapper");
+          const otherIcon = other.querySelector(".chiropractic-faq-icon");
+
+          other.classList.remove("active");
+
+          gsap.to(otherWrapper, {
+            height: 0,
+            duration: 0.35,
+            ease: "power2.inOut"
+          });
+
+          gsap.to(otherIcon, {
+            rotate: 0,
+            duration: 0.2,
+            ease: "power2.out"
+          });
+
+        }
+
+      });
+
+
+      // Toggle current FAQ
+      if (isOpen) {
+
+        item.classList.remove("active");
+
+        gsap.to(wrapper, {
+          height: 0,
+          duration: 0.35,
+          ease: "power2.inOut"
+        });
+
+        gsap.to(icon, {
+          rotate: 0,
+          duration: 0.2,
+          ease: "power2.out"
+        });
+
+
+      } else {
+
+        item.classList.add("active");
+
+        gsap.to(wrapper, {
+          height: wrapper.scrollHeight,
+          duration: 0.45,
+          ease: "power3.out"
+        });
+
+        gsap.to(icon, {
+          rotate: 45,
+          duration: 0.2,
+          ease: "power2.out"
+        });
+
+      }
+
+    });
+
+  });
+
+});
+
+
+// 
+document.addEventListener("DOMContentLoaded", () => {
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.querySelectorAll(".chiropractic-heading-reveal").forEach((section) => {
+
+    const headings = section.querySelectorAll("h1, h2");
+
+    headings.forEach((heading) => {
+
+      // Wrap heading in an overflow-hidden div
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("chiropractic-heading-mask");
+      heading.parentNode.insertBefore(wrapper, heading);
+      wrapper.appendChild(heading);
+
+      gsap.from(heading, {
+        yPercent: 100,
+        duration: 1.3,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: wrapper,
+          start: "top 85%",
+          once: true
+        }
+      });
+
+    });
+
+  });
 });

@@ -586,7 +586,7 @@ nav {
 /* ─── TOP PANEL (menu content) ─── */
 .menu-top {
     flex: 1;
-    background: var(--color-dark);
+    background: #002152;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -599,7 +599,7 @@ nav {
 .menu-bottom {
     height: 180px;
     border-top: 1px solid var(--color-dakr2);
-    background: linear-gradient(180deg, #11171F 0%, #B2FF00 100%);
+    background: linear-gradient(180deg, #002152 0%, #E65689 100%);
     display: flex;
     align-items: end;
     justify-content: center;
@@ -686,7 +686,7 @@ nav {
 }
 
 .nav-col-title {
-    color: var(--color-light-green);
+    color: #E65689;
     font-size: 20px;
     font-style: normal;
     font-weight: 500;
@@ -718,7 +718,7 @@ nav {
 }
 
 .nav-col ul li a:hover {
-    color: var(--color-soft-green);
+    color: #95B0D8;
 }
 
 /* ─── BOTTOM LOGO ─── */
@@ -910,9 +910,9 @@ html.lenis body {
 
 
 /* Petgrooming testimonial Mobile arrows */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
-    .petgrooming-arrows {
+    .chiropractic-arrows {
         position: absolute;
         bottom: -60px;
         left: 50%;
@@ -926,15 +926,15 @@ html.lenis body {
         pointer-events: none;
     }
 
-    .petgrooming-arrow {
+    .chiropractic-arrow {
         position: static !important;
         transform: none !important;
         width: 42px;
         height: 42px;
         border-radius: 9999px;
         background: #fff;
-        border: 1px solid #FFC258;
-        color: #FFC258;
+        border: 1px solid #E65689;
+        color: #E65689;
         /* SVG color */
         display: flex;
         align-items: center;
@@ -943,36 +943,21 @@ html.lenis body {
         transition: all .3s ease;
     }
 
-    .petgrooming-arrow svg {
+    .chiropractic-arrow svg {
         width: 18px;
         height: 18px;
         fill: currentColor;
     }
 
-    .petgrooming-arrow:hover {
-        background: #FFC258;
-        border-color: #FFC258;
+    .chiropractic-arrow:hover {
+        background: #E65689;
+        border-color: #E65689;
         color: #fff;
         /* SVG becomes white */
     }
 
 }
 
-/*  */
-@keyframes spinSlow {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.animate-spin-slow {
-    animation: spinSlow 15s linear infinite;
-    will-change: transform;
-}
 
 
 
@@ -1140,5 +1125,16 @@ html.lenis body {
     }
 }
 
+/* chiropractic faq  */
+.chiropractic-faq-item.active {
+  background-color: #002152;
+}
 
+.chiropractic-heading-mask {
+  overflow: hidden;
+}
 
+.chiropractic-heading-mask h1,
+.chiropractic-heading-mask h2 {
+  will-change: transform;
+}
