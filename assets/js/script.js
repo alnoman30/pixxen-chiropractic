@@ -2075,11 +2075,6 @@ document.addEventListener('DOMContentLoaded', () => {
             : n;
     }
 
-    // Smooth easing function
-    function easeOutQuart(t) {
-        return 1 - Math.pow(1 - t, 4);
-    }
-
     const observer = new IntersectionObserver((entries) => {
 
         entries.forEach(entry => {
@@ -2097,37 +2092,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const prefix = el.dataset.prefix || '';
             const format = el.dataset.format || '';
 
-            const duration = 3000; // 3 seconds (increase for slower animation)
+            const duration = 1800;
+            const steps = 60;
+            const increment = target / steps;
+            const interval = duration / steps;
 
-            let startTime = null;
+            let current = 0;
 
-            function animate(timestamp) {
+            const timer = setInterval(() => {
 
-                if (!startTime) startTime = timestamp;
+                current += increment;
 
-                const progress = Math.min(
-                    (timestamp - startTime) / duration,
-                    1
-                );
-
-                const easedProgress = easeOutQuart(progress);
-
-                const current = Math.round(
-                    target * easedProgress
-                );
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
 
                 el.textContent =
                     prefix +
-                    formatNum(current, format) +
+                    formatNum(Math.round(current), format) +
                     suffix;
 
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                }
-
-            }
-
-            requestAnimationFrame(animate);
+            }, interval);
 
             observer.unobserve(el);
 
@@ -2136,7 +2122,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, {
         threshold: 0.5
     });
-
 
     counters.forEach(counter => {
         observer.observe(counter);
