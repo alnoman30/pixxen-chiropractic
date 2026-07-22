@@ -2012,11 +2012,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// 
+// chiropractic heading reveal
 document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
 
-  document.querySelectorAll(".chiropractic-heading-reveal").forEach((section) => {
+  document.querySelectorAll(".chiro-reveal-head").forEach((section) => {
 
     const headings = section.querySelectorAll("h1, h2");
 
@@ -2042,4 +2042,104 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   });
+});
+
+
+// chiropractic image -parallax
+gsap.utils.toArray(".chiro-parallax img").forEach(img => {
+
+  gsap.fromTo(img,
+    { y: "-10%" },
+    {
+      y: "10%",
+      ease: "none",
+      scrollTrigger: {
+        trigger: img.closest(".chiro-parallax"),
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5
+      }
+    }
+  );
+
+});
+
+// Chiropractic statistic counter
+document.addEventListener('DOMContentLoaded', () => {
+
+    const counters = document.querySelectorAll('.chiro-counter');
+
+    function formatNum(n, format) {
+        return format === 'comma'
+            ? n.toLocaleString()
+            : n;
+    }
+
+    // Smooth easing function
+    function easeOutQuart(t) {
+        return 1 - Math.pow(1 - t, 4);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+
+        entries.forEach(entry => {
+
+            if (!entry.isIntersecting) return;
+
+            const el = entry.target;
+
+            if (el.dataset.animated === 'true') return;
+
+            el.dataset.animated = 'true';
+
+            const target = parseInt(el.dataset.target);
+            const suffix = el.dataset.suffix || '';
+            const prefix = el.dataset.prefix || '';
+            const format = el.dataset.format || '';
+
+            const duration = 3000; // 3 seconds (increase for slower animation)
+
+            let startTime = null;
+
+            function animate(timestamp) {
+
+                if (!startTime) startTime = timestamp;
+
+                const progress = Math.min(
+                    (timestamp - startTime) / duration,
+                    1
+                );
+
+                const easedProgress = easeOutQuart(progress);
+
+                const current = Math.round(
+                    target * easedProgress
+                );
+
+                el.textContent =
+                    prefix +
+                    formatNum(current, format) +
+                    suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+
+            }
+
+            requestAnimationFrame(animate);
+
+            observer.unobserve(el);
+
+        });
+
+    }, {
+        threshold: 0.5
+    });
+
+
+    counters.forEach(counter => {
+        observer.observe(counter);
+    });
+
 });
